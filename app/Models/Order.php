@@ -108,7 +108,9 @@ class Order extends Model
         });
 
         static::updated(function ($order) {
-            if ($order->isDirty('status')) {
+            if ($order->isDirty('status') || $order->isDirty('payment_status')) {
+                broadcast(new \App\Events\OrderStatusUpdated($order));
+                
                 $order->statusHistories()->create([
                     'status' => $order->status,
                     'note'   => $order->_statusNote ?? 'Status diperbarui melalui sistem admin.',

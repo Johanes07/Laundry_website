@@ -188,7 +188,7 @@
                         <div class="space-y-4">
                             <div class="flex justify-between items-center text-sm">
                                 <span class="text-slate-500 font-medium">Metode</span>
-                                <span class="font-bold text-slate-800">{{ $order->payment_method_label }}</span>
+                                    <span id="payment-method" class="font-bold text-slate-800">{{ $order->payment_method_label }}</span>
                             </div>
                             <div class="flex justify-between items-center text-sm">
                                 <span class="text-slate-500 font-medium">Status</span>
@@ -200,7 +200,7 @@
                                         default  => 'bg-slate-100 text-slate-700',
                                     };
                                 @endphp
-                                <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase {{ $payBadge }}">
+                                <span id="payment-status" class="px-3 py-1 rounded-full text-[10px] font-black uppercase {{ $payBadge }}">
                                     {{ $order->payment_status_label }}
                                 </span>
                             </div>
@@ -319,8 +319,26 @@
                                     badge.className = `px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest shadow-2xl transition-all duration-500 ${statusBadgeColors[data.status] ?? 'bg-slate-100 text-slate-700'}`;
                                 }
                                 updateTracker(data.status);
-                                // Toast logic tetap
-                                showToast(`Update: Pesanan ${statusLabels[data.status]}`);
+                                 // 🔥 TAMBAHAN: PAYMENT UPDATE
+                                const paymentStatus = document.getElementById('payment-status');
+                                const paymentMethod = document.getElementById('payment-method');
+
+                                const paymentColors = {
+                                    paid: 'bg-emerald-100 text-emerald-700',
+                                    unpaid: 'bg-red-100 text-red-700',
+                                    cod: 'bg-amber-100 text-amber-700',
+                                };
+
+                                if (paymentStatus) {
+                                    paymentStatus.textContent = data.payment_label;
+                                    paymentStatus.className = `px-3 py-1 rounded-full text-[10px] font-black uppercase ${paymentColors[data.payment_status]}`;
+                                }
+
+                                if (paymentMethod) {
+                                    paymentMethod.textContent = data.payment_method;
+                                }
+
+                                showToast(`Update: ${statusLabels[data.status]} / ${data.payment_label}`);
                             });
                         
                         function showToast(message) {

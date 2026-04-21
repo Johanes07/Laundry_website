@@ -23,11 +23,14 @@ class OrderStatusUpdated implements ShouldBroadcastNow // ← dan ini
 
     public function broadcastWith(): array
     {
-        return [
-            'status'       => $this->order->status,
-            'status_label' => $this->order->status_label,
-            'updated_at'   => now()->format('d M, H:i'),
-            'note'         => $this->order->statusHistories()->latest()->first()?->note,
+            return [
+            'status'            => $this->order->status,
+            'status_label'      => $this->order->status_label,
+            'payment_status'    => $this->order->payment_status,
+            'payment_label'     => $this->order->payment_status_label,
+            'payment_method'    => $this->order->payment_method_label,
+            'updated_at'        => now()->format('d M, H:i'),
+            'note'              => $this->order->statusHistories()->latest()->first()?->note,
         ];
     }
 

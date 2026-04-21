@@ -107,8 +107,12 @@
                     Standar baru kebersihan pakaian. Kami memadukan teknologi dan ketelitian tangan untuk hasil yang sempurna.
                 </p>
                 <div class="flex gap-4">
-                    <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition cursor-pointer">📸</div>
-                    <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition cursor-pointer">🐦</div>
+                    <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition cursor-pointer">
+                        <img src="{{ asset('icons/instagram.png') }}" class="w-5 h-5" alt="Instagram">
+                    </div>
+                    <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition cursor-pointer">
+                        <img src="{{ asset('icons/gmail.png') }}" class="w-5 h-5" alt="email">
+                    </div>
                 </div>
             </div>
             
@@ -126,11 +130,15 @@
                 <p class="text-white font-bold tracking-widest text-xs uppercase mb-6">Hubungi Kami</p>
                 <ul class="space-y-5 text-sm font-medium">
                     <li class="flex items-start gap-4">
-                        <span class="text-indigo-400">📍</span>
+                        <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition cursor-pointer">
+                            <img src="{{ asset('icons/map.png') }}" class="w-5 h-5" alt="location">
+                        </div>
                         <span class="opacity-80">Gading Serpong, Kav 12<br>Tangerang, Banten</span>
                     </li>
                     <li class="flex items-center gap-4">
-                        <span class="text-indigo-400">💬</span>
+                        <div class="w-10 h-10 bg-slate-800 rounded-full flex items-center justify-center hover:bg-indigo-600 transition cursor-pointer">
+                            <img src="{{ asset('icons/wa.png') }}" class="w-5 h-5" alt="whatsapp">
+                        </div>
                         <span class="opacity-80">0812 8888 9999</span>
                     </li>
                 </ul>
