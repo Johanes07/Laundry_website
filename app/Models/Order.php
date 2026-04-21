@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable = [
+        protected $fillable = [
         'order_code',
         'customer_name',
         'customer_phone',
@@ -23,6 +23,9 @@ class Order extends Model
         'store_account_id',
         'payment_status',
         'paid_at',
+        'delivery_type',    // ← tambah
+        'customer_lat',     // ← tambah
+        'customer_lng',     // ← tambah
     ];
 
     protected $casts = [
@@ -46,6 +49,11 @@ class Order extends Model
     public function storeAccount()
     {
         return $this->belongsTo(StoreAccount::class);
+    }
+
+    public function courierLocation()
+    {
+        return $this->hasOne(CourierLocation::class)->latestOfMany();
     }
 
     // ── Accessors ──

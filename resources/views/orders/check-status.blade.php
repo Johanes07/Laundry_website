@@ -1,6 +1,5 @@
 <x-layout>
     <div class="max-w-xl mx-auto px-4 py-8 md:py-12 relative">
-        {{-- Dekorasi Latar Belakang --}}
         <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-64 bg-gradient-to-b from-blue-50/50 to-transparent -z-10 rounded-full blur-3xl"></div>
 
         <div class="text-center mb-10">
@@ -10,22 +9,18 @@
             </p>
         </div>
 
-        {{-- Form Cek - Desain Lebih Modern & Floating --}}
         <form method="GET" action="{{ route('order.check') }}" class="relative mb-12">
             <div class="flex flex-col md:flex-row items-stretch bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.08)] overflow-hidden border border-slate-100 p-2 group transition-all focus-within:ring-4 focus-within:ring-blue-100">
-                
                 <div class="flex items-center flex-1 px-4">
                     <div class="text-slate-400 group-focus-within:text-blue-500 transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
-                    <input type="text" name="code"
-                        value="{{ request('code') }}"
+                    <input type="text" name="code" value="{{ request('code') }}"
                         placeholder="Masukkan Kode Order Anda..."
                         class="w-full px-4 py-4 md:py-5 text-base md:text-lg font-bold text-slate-700 focus:outline-none placeholder:text-slate-300 placeholder:font-normal">
                 </div>
-
                 <button type="submit"
                     class="bg-slate-900 text-white px-10 py-4 md:py-5 font-bold hover:bg-blue-600 transition-all active:scale-95 rounded-2xl shadow-lg shadow-slate-200">
                     Cek Status
@@ -34,7 +29,7 @@
         </form>
 
         @error('code')
-            <div class="bg-red-50 border border-red-100 text-red-600 p-4 rounded-2xl mb-8 flex items-center animate-bounce-short">
+            <div class="bg-red-50 border border-red-100 text-red-600 p-4 rounded-2xl mb-8 flex items-center">
                 <svg class="h-5 w-5 mr-3 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                 </svg>
@@ -42,20 +37,17 @@
             </div>
         @enderror
 
-        {{-- Hasil - Desain Card Cinematic --}}
         @if ($order)
-            <div class="bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.1)] overflow-hidden border border-slate-50 animate-in fade-in zoom-in-95 duration-500">
+            <div class="bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.1)] overflow-hidden border border-slate-50">
 
-                {{-- Header Card dengan Gradien Mesh --}}
+                {{-- Header --}}
                 <div class="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-950 p-7 sm:p-10 text-white relative overflow-hidden">
                     <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl -mr-16 -mt-16"></div>
-                    
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative z-10">
                         <div>
                             <p class="text-blue-300 text-[10px] uppercase tracking-[0.3em] font-black mb-1">Rincian Pesanan</p>
                             <p class="text-2xl sm:text-3xl font-mono font-black tracking-tighter">{{ $order->order_code }}</p>
                         </div>
-                        
                         @php
                             $statusStyles = match($order->status) {
                                 'pending'    => ['color' => 'bg-amber-400 text-amber-950', 'label' => 'Menunggu'],
@@ -72,13 +64,13 @@
                     </div>
                 </div>
 
-                <div class="p-6 sm:p-10 space-y-10">
+                <div class="p-6 sm:p-10 space-y-8">
 
-                    {{-- Info Grid dengan Ikon Halus --}}
+                    {{-- Info Grid --}}
                     <div class="grid grid-cols-2 gap-8">
-                        <div class="group">
+                        <div>
                             <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-2">Pelanggan</p>
-                            <p class="font-extrabold text-slate-800 text-base sm:text-lg group-hover:text-blue-600 transition-colors">{{ $order->customer_name }}</p>
+                            <p class="font-extrabold text-slate-800 text-base sm:text-lg">{{ $order->customer_name }}</p>
                         </div>
                         <div class="text-right">
                             <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-2">Total Tagihan</p>
@@ -93,61 +85,67 @@
                         @if ($order->estimated_done)
                         <div class="text-right">
                             <p class="text-slate-400 text-[10px] font-bold uppercase tracking-wider mb-2">Estimasi Selesai</p>
-                            <p class="font-bold text-slate-800 text-sm sm:text-base italic underline decoration-blue-200 underline-offset-4">
-                                {{ $order->estimated_done->format('d M Y') }}
-                            </p>
+                            <p class="font-bold text-slate-800 text-sm sm:text-base">{{ $order->estimated_done->format('d M Y') }}</p>
                         </div>
                         @endif
                     </div>
 
-                    {{-- Progress Tracker - Dibuat Lebih "Clean" --}}
+                    {{-- Tombol Live Tracking (hanya delivery) --}}
+                    @if ($order->delivery_type === 'delivery')
+                        <a id="tracking-btn"
+                            href="{{ route('tracking.show', $order->order_code) }}"
+                            class="flex items-center gap-4 bg-blue-600 text-white rounded-2xl p-5 hover:bg-blue-700 transition-all group {{ in_array($order->status, ['ready', 'processing']) ? '' : 'hidden' }}">
+                            <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0 text-2xl">🛵</div>
+                            <div class="flex-1">
+                                <p class="font-black text-sm">Lacak Kurir Live</p>
+                                <p class="text-blue-200 text-xs font-medium">Lihat posisi kurir di peta secara real-time</p>
+                            </div>
+                            <svg class="w-5 h-5 text-blue-200 group-hover:translate-x-1 transition-transform shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                    @endif
+
+                    {{-- Progress Tracker --}}
                     <div class="py-4">
                         <p class="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-8 text-center">Tracking Log</p>
-
                         @php
                             $allSteps   = ['pending', 'confirmed', 'processing', 'ready', 'completed'];
                             $stepLabels = ['Menunggu', 'Diterima', 'Dicuci', 'Siap Antar', 'Selesai'];
                             $currentIdx = array_search($order->status, $allSteps);
                         @endphp
 
-                        {{-- Desktop Tracker --}}
-                        <div class="hidden sm:flex items-start justify-between relative px-4" id="progress-tracker-desktop">
+                        {{-- Desktop --}}
+                        <div class="hidden sm:flex items-start justify-between relative px-4">
                             @foreach ($allSteps as $i => $step)
-                                <div class="flex flex-col items-center relative z-10 group">
-                                    <div data-step-circle
-                                         class="w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-700
-                                            {{ $i < $currentIdx ? 'bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-100' : ($i === $currentIdx ? 'bg-white border-blue-600 ring-8 ring-blue-50 shadow-xl' : 'bg-white border-slate-200') }}">
+                                <div class="flex flex-col items-center relative z-10">
+                                    <div data-step-circle class="w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-700
+                                        {{ $i < $currentIdx ? 'bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-100' : ($i === $currentIdx ? 'bg-white border-blue-600 ring-8 ring-blue-50 shadow-xl' : 'bg-white border-slate-200') }}">
                                         @if ($i < $currentIdx)
                                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                                         @else
                                             <div class="w-2.5 h-2.5 rounded-full {{ $i === $currentIdx ? 'bg-blue-600 animate-pulse' : 'bg-slate-200' }}"></div>
                                         @endif
                                     </div>
-                                    <p data-step-label
-                                       class="text-[10px] font-black mt-4 text-center absolute -bottom-8 w-20 uppercase tracking-tighter
-                                            {{ $i < $currentIdx ? 'text-emerald-600' : ($i === $currentIdx ? 'text-blue-600' : 'text-slate-400') }}">
+                                    <p data-step-label class="text-[10px] font-black mt-4 text-center absolute -bottom-8 w-20 uppercase tracking-tighter
+                                        {{ $i < $currentIdx ? 'text-emerald-600' : ($i === $currentIdx ? 'text-blue-600' : 'text-slate-400') }}">
                                         {{ $stepLabels[$i] }}
                                     </p>
                                 </div>
                                 @if ($i < count($allSteps) - 1)
-                                    <div data-step-connector
-                                         class="flex-1 h-[2px] mt-5 -mx-2 transition-all duration-1000
-                                            {{ $i < $currentIdx ? 'bg-emerald-400' : 'bg-slate-100' }}">
-                                    </div>
+                                    <div data-step-connector class="flex-1 h-[2px] mt-5 -mx-2 transition-all duration-1000 {{ $i < $currentIdx ? 'bg-emerald-400' : 'bg-slate-100' }}"></div>
                                 @endif
                             @endforeach
                         </div>
-                        {{-- Spacing for desktop labels --}}
                         <div class="hidden sm:block h-8"></div>
 
-                        {{-- Mobile Tracker --}}
-                        <div class="flex sm:hidden flex-col gap-1" id="progress-tracker-mobile">
+                        {{-- Mobile --}}
+                        <div class="flex sm:hidden flex-col gap-1">
                             @foreach ($allSteps as $i => $step)
                                 <div class="flex items-start gap-5">
                                     <div class="flex flex-col items-center">
-                                        <div data-step-circle-mobile
-                                             class="w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all shrink-0
-                                                {{ $i < $currentIdx ? 'bg-emerald-500 border-emerald-500 shadow-md' : ($i === $currentIdx ? 'bg-white border-blue-600 ring-4 ring-blue-50' : 'bg-white border-slate-200') }}">
+                                        <div data-step-circle-mobile class="w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all shrink-0
+                                            {{ $i < $currentIdx ? 'bg-emerald-500 border-emerald-500 shadow-md' : ($i === $currentIdx ? 'bg-white border-blue-600 ring-4 ring-blue-50' : 'bg-white border-slate-200') }}">
                                             @if ($i < $currentIdx)
                                                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
                                             @else
@@ -155,16 +153,12 @@
                                             @endif
                                         </div>
                                         @if ($i < count($allSteps) - 1)
-                                            <div data-step-connector-mobile
-                                                 class="w-[2px] flex-1 min-h-[35px] my-1 transition-all duration-700
-                                                    {{ $i < $currentIdx ? 'bg-emerald-400' : 'bg-slate-100' }}">
-                                            </div>
+                                            <div data-step-connector-mobile class="w-[2px] flex-1 min-h-[35px] my-1 transition-all duration-700 {{ $i < $currentIdx ? 'bg-emerald-400' : 'bg-slate-100' }}"></div>
                                         @endif
                                     </div>
                                     <div class="pt-1.5">
-                                        <p data-step-label-mobile
-                                           class="text-xs font-black uppercase tracking-widest
-                                                {{ $i < $currentIdx ? 'text-emerald-600' : ($i === $currentIdx ? 'text-blue-600' : 'text-slate-400') }}">
+                                        <p data-step-label-mobile class="text-xs font-black uppercase tracking-widest
+                                            {{ $i < $currentIdx ? 'text-emerald-600' : ($i === $currentIdx ? 'text-blue-600' : 'text-slate-400') }}">
                                             {{ $stepLabels[$i] }}
                                         </p>
                                         @if ($i === $currentIdx)
@@ -176,7 +170,7 @@
                         </div>
                     </div>
 
-                    {{-- Info Pembayaran - Card Style --}}
+                    {{-- Info Pembayaran --}}
                     <div class="bg-slate-50 rounded-3xl p-6 border border-slate-100">
                         <div class="flex items-center gap-3 mb-5">
                             <div class="w-8 h-8 rounded-xl bg-white shadow-sm flex items-center justify-center text-slate-400">
@@ -184,11 +178,10 @@
                             </div>
                             <p class="text-xs font-black text-slate-800 uppercase tracking-widest">Informasi Pembayaran</p>
                         </div>
-                        
                         <div class="space-y-4">
                             <div class="flex justify-between items-center text-sm">
                                 <span class="text-slate-500 font-medium">Metode</span>
-                                    <span id="payment-method" class="font-bold text-slate-800">{{ $order->payment_method_label }}</span>
+                                <span id="payment-method" class="font-bold text-slate-800">{{ $order->payment_method_label }}</span>
                             </div>
                             <div class="flex justify-between items-center text-sm">
                                 <span class="text-slate-500 font-medium">Status</span>
@@ -205,14 +198,12 @@
                                 </span>
                             </div>
                         </div>
-
-                        {{-- Rekening (hanya jika belum bayar) --}}
                         @if ($order->payment_status === 'unpaid' && $order->storeAccount)
                             <div class="mt-6 pt-6 border-t border-slate-200/60">
                                 <div class="bg-white rounded-2xl p-4 border border-slate-100 shadow-sm">
                                     <div class="flex items-center justify-between mb-3">
                                         <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tujuan Transfer</span>
-                                        <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded italic">{{ $order->storeAccount->bank_name }}</span>
+                                        <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded">{{ $order->storeAccount->bank_name }}</span>
                                     </div>
                                     <p class="text-lg font-mono font-black text-slate-800 tracking-widest mb-1">{{ $order->storeAccount->account_number }}</p>
                                     <p class="text-[11px] text-slate-500 font-medium">a.n. {{ $order->storeAccount->account_holder }}</p>
@@ -221,8 +212,8 @@
                         @endif
                     </div>
 
-                    {{-- Footer Bantuan --}}
-                    <div class="text-center pt-4">
+                    {{-- WhatsApp --}}
+                    <div class="text-center pt-2">
                         <a href="https://wa.me/{{ config('app.whatsapp_number') }}?text=Halo, saya ingin menanyakan pesanan {{ $order->order_code }}"
                             target="_blank"
                             class="inline-flex items-center justify-center gap-3 w-full bg-emerald-50 text-emerald-700 font-bold py-4 rounded-2xl hover:bg-emerald-100 transition-all text-sm group">
@@ -234,123 +225,60 @@
             </div>
         @endif
 
-        {{-- Logika JavaScript Tetap (Tidak Ada Perubahan Logika) --}}
         @if ($order)
-            @push('scripts')
-                <script>
-                    // ... (Seluruh script Anda tetap di sini, kelas-kelas di dalam fungsi updateTracker perlu disesuaikan dengan class baru di atas jika ingin animasi real-time mengikuti desain baru)
-                    document.addEventListener('DOMContentLoaded', function () {
-                        const orderCode = "{{ $order->order_code }}";
-                        const statusLabels = {
-                            pending: 'Menunggu',
-                            confirmed: 'Diterima',
-                            processing: 'Dicuci',
-                            ready: 'Siap Antar',
-                            completed: 'Selesai',
-                        };
+        @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const orderCode = "{{ $order->order_code }}";
+                const allSteps = ['pending', 'confirmed', 'processing', 'ready', 'completed'];
+                const statusLabels = { pending:'Menunggu', confirmed:'Diterima', processing:'Dicuci', ready:'Siap Antar', completed:'Selesai' };
+                const statusBadgeColors = { pending:'bg-amber-400 text-amber-950', confirmed:'bg-blue-500 text-white', processing:'bg-indigo-500 text-white', ready:'bg-emerald-500 text-white', completed:'bg-slate-700 text-slate-100' };
+                const paymentColors = { paid:'bg-emerald-100 text-emerald-700', unpaid:'bg-red-100 text-red-700', cod:'bg-amber-100 text-amber-700' };
 
-                        const statusBadgeColors = {
-                            pending: 'bg-amber-400 text-amber-950',
-                            confirmed: 'bg-blue-500 text-white',
-                            processing: 'bg-indigo-500 text-white',
-                            ready: 'bg-emerald-500 text-white',
-                            completed: 'bg-slate-700 text-slate-100',
-                        };
-
-                        const allSteps = ['pending', 'confirmed', 'processing', 'ready', 'completed'];
-
-                        function updateTracker(status) {
-                            const currentIdx = allSteps.indexOf(status);
-
-                            // Update Desktop
-                            const circles = document.querySelectorAll('[data-step-circle]');
-                            const connectors = document.querySelectorAll('[data-step-connector]');
-                            const labels = document.querySelectorAll('[data-step-label]');
-
-                            circles.forEach((circle, i) => {
-                                if (i < currentIdx) {
-                                    circle.className = 'w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-700 bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-100';
-                                    circle.innerHTML = `<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`;
-                                } else if (i === currentIdx) {
-                                    circle.className = 'w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-700 bg-white border-blue-600 ring-8 ring-blue-50 shadow-xl';
-                                    circle.innerHTML = `<div class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></div>`;
-                                } else {
-                                    circle.className = 'w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-700 bg-white border-slate-200';
-                                    circle.innerHTML = `<div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>`;
-                                }
-                            });
-
-                            connectors.forEach((line, i) => {
-                                line.className = 'flex-1 h-[2px] mt-5 -mx-2 transition-all duration-1000 ' + (i < currentIdx ? 'bg-emerald-400' : 'bg-slate-100');
-                            });
-
-                            labels.forEach((label, i) => {
-                                label.className = 'text-[10px] font-black mt-4 text-center absolute -bottom-8 w-20 uppercase tracking-tighter ' + (i < currentIdx ? 'text-emerald-600' : (i === currentIdx ? 'text-blue-600' : 'text-slate-400'));
-                            });
-
-                            // Mobile (Sama logikanya, tinggal sesuaikan classnya)
-                            const mCircles = document.querySelectorAll('[data-step-circle-mobile]');
-                            const mConnectors = document.querySelectorAll('[data-step-connector-mobile]');
-                            const mLabels = document.querySelectorAll('[data-step-label-mobile]');
-
-                            mCircles.forEach((circle, i) => {
-                                if (i < currentIdx) {
-                                    circle.className = 'w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all shrink-0 bg-emerald-500 border-emerald-500 shadow-md';
-                                    circle.innerHTML = `<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`;
-                                } else if (i === currentIdx) {
-                                    circle.className = 'w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all shrink-0 bg-white border-blue-600 ring-4 ring-blue-50';
-                                    circle.innerHTML = `<div class="w-2 h-2 rounded-full bg-blue-600"></div>`;
-                                } else {
-                                    circle.className = 'w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all shrink-0 bg-white border-slate-200';
-                                    circle.innerHTML = `<div class="w-2 h-2 rounded-full bg-slate-200"></div>`;
-                                }
-                            });
-                            
-                            mConnectors.forEach((line, i) => {
-                                line.className = 'w-[2px] flex-1 min-h-[35px] my-1 transition-all duration-700 ' + (i < currentIdx ? 'bg-emerald-400' : 'bg-slate-100');
-                            });
-                        }
-
-                        window.Echo.channel(`order.${orderCode}`)
-                            .listen('.status.updated', (data) => {
-                                const badge = document.getElementById('status-badge');
-                                if (badge) {
-                                    badge.textContent = statusLabels[data.status] ?? data.status;
-                                    badge.className = `px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest shadow-2xl transition-all duration-500 ${statusBadgeColors[data.status] ?? 'bg-slate-100 text-slate-700'}`;
-                                }
-                                updateTracker(data.status);
-                                 // 🔥 TAMBAHAN: PAYMENT UPDATE
-                                const paymentStatus = document.getElementById('payment-status');
-                                const paymentMethod = document.getElementById('payment-method');
-
-                                const paymentColors = {
-                                    paid: 'bg-emerald-100 text-emerald-700',
-                                    unpaid: 'bg-red-100 text-red-700',
-                                    cod: 'bg-amber-100 text-amber-700',
-                                };
-
-                                if (paymentStatus) {
-                                    paymentStatus.textContent = data.payment_label;
-                                    paymentStatus.className = `px-3 py-1 rounded-full text-[10px] font-black uppercase ${paymentColors[data.payment_status]}`;
-                                }
-
-                                if (paymentMethod) {
-                                    paymentMethod.textContent = data.payment_method;
-                                }
-
-                                showToast(`Update: ${statusLabels[data.status]} / ${data.payment_label}`);
-                            });
-                        
-                        function showToast(message) {
-                            const toast = document.createElement('div');
-                            toast.className = 'fixed bottom-6 right-4 left-4 sm:left-auto sm:right-6 sm:w-auto bg-slate-900 text-white px-8 py-4 rounded-2xl shadow-2xl font-bold text-sm z-50 animate-in slide-in-from-right-10';
-                            toast.textContent = message;
-                            document.body.appendChild(toast);
-                            setTimeout(() => toast.remove(), 4000);
-                        }
+                function updateTracker(status) {
+                    const currentIdx = allSteps.indexOf(status);
+                    document.querySelectorAll('[data-step-circle]').forEach((el, i) => {
+                        if (i < currentIdx) { el.className='w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-700 bg-emerald-500 border-emerald-500 shadow-lg shadow-emerald-100'; el.innerHTML=`<svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`; }
+                        else if (i===currentIdx) { el.className='w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-700 bg-white border-blue-600 ring-8 ring-blue-50 shadow-xl'; el.innerHTML=`<div class="w-2.5 h-2.5 rounded-full bg-blue-600 animate-pulse"></div>`; }
+                        else { el.className='w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-700 bg-white border-slate-200'; el.innerHTML=`<div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>`; }
                     });
-                </script>
-            @endpush
+                    document.querySelectorAll('[data-step-connector]').forEach((el,i) => { el.className='flex-1 h-[2px] mt-5 -mx-2 transition-all duration-1000 '+(i<currentIdx?'bg-emerald-400':'bg-slate-100'); });
+                    document.querySelectorAll('[data-step-label]').forEach((el,i) => { el.className='text-[10px] font-black mt-4 text-center absolute -bottom-8 w-20 uppercase tracking-tighter '+(i<currentIdx?'text-emerald-600':(i===currentIdx?'text-blue-600':'text-slate-400')); });
+                    document.querySelectorAll('[data-step-circle-mobile]').forEach((el,i) => {
+                        if (i<currentIdx) { el.className='w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all shrink-0 bg-emerald-500 border-emerald-500 shadow-md'; el.innerHTML=`<svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>`; }
+                        else if (i===currentIdx) { el.className='w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all shrink-0 bg-white border-blue-600 ring-4 ring-blue-50'; el.innerHTML=`<div class="w-2 h-2 rounded-full bg-blue-600"></div>`; }
+                        else { el.className='w-9 h-9 rounded-full flex items-center justify-center border-2 transition-all shrink-0 bg-white border-slate-200'; el.innerHTML=`<div class="w-2 h-2 rounded-full bg-slate-200"></div>`; }
+                    });
+                    document.querySelectorAll('[data-step-connector-mobile]').forEach((el,i) => { el.className='w-[2px] flex-1 min-h-[35px] my-1 transition-all duration-700 '+(i<currentIdx?'bg-emerald-400':'bg-slate-100'); });
+                }
+
+                window.Echo.channel(`order.${orderCode}`)
+                    .listen('.status.updated', (data) => {
+                        const badge = document.getElementById('status-badge');
+                        if (badge) { badge.textContent = statusLabels[data.status]??data.status; badge.className=`px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest shadow-2xl transition-all duration-500 ${statusBadgeColors[data.status]??'bg-slate-100 text-slate-700'}`; }
+
+                        const trackingBtn = document.getElementById('tracking-btn');
+                        if (trackingBtn) { trackingBtn.classList.toggle('hidden', !['ready','processing'].includes(data.status)); }
+
+                        const ps = document.getElementById('payment-status');
+                        const pm = document.getElementById('payment-method');
+                        if (ps) { ps.textContent=data.payment_label; ps.className=`px-3 py-1 rounded-full text-[10px] font-black uppercase ${paymentColors[data.payment_status]??'bg-slate-100 text-slate-700'}`; }
+                        if (pm) { pm.textContent=data.payment_method; }
+
+                        updateTracker(data.status);
+                        showToast(`Update: ${statusLabels[data.status]} / ${data.payment_label}`);
+                    });
+
+                function showToast(msg) {
+                    const t = document.createElement('div');
+                    t.className = 'fixed bottom-6 right-4 left-4 sm:left-auto sm:right-6 sm:w-auto bg-slate-900 text-white px-8 py-4 rounded-2xl shadow-2xl font-bold text-sm z-50';
+                    t.textContent = msg;
+                    document.body.appendChild(t);
+                    setTimeout(() => t.remove(), 4000);
+                }
+            });
+        </script>
+        @endpush
         @endif
     </div>
 </x-layout>

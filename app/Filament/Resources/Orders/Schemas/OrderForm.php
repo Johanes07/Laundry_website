@@ -1,7 +1,4 @@
 <?php
-// ══════════════════════════════════════════════════════════════════
-//  File: app/Filament/Resources/Orders/Schemas/OrderForm.php
-// ══════════════════════════════════════════════════════════════════
 
 namespace App\Filament\Resources\Orders\Schemas;
 
@@ -74,6 +71,37 @@ class OrderForm
                 Textarea::make('notes')
                     ->label('Catatan')
                     ->columnSpanFull(),
+
+                // ── Delivery ──
+                Select::make('delivery_type')
+                    ->label('Metode Pengambilan')
+                    ->options([
+                        'pickup'   => '🏪 Ambil Sendiri',
+                        'delivery' => '🛵 Diantar Kurir',
+                    ])
+                    ->default('pickup')
+                    ->required()
+                    ->native(false)
+                    ->live()
+                    ->columnSpan(1),
+
+                // Link tracking — read only, copy manual
+                TextInput::make('tracking_url')
+                    ->label('Link Tracking Customer')
+                    ->formatStateUsing(fn ($record) => $record ? route('tracking.show', $record->order_code) : '-')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->visible(fn ($get) => $get('delivery_type') === 'delivery')
+                    ->columnSpan(1),
+
+                // Link kurir — read only, copy manual
+                TextInput::make('courier_url')
+                    ->label('Link Halaman Kurir')
+                    ->formatStateUsing(fn ($record) => $record ? route('courier.active', $record) : '-')
+                    ->disabled()
+                    ->dehydrated(false)
+                    ->visible(fn ($get) => $get('delivery_type') === 'delivery')
+                    ->columnSpan(1),
 
                 // ── Order Status ──
                 Select::make('status')

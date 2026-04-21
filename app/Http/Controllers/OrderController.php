@@ -30,9 +30,19 @@ class OrderController extends Controller
             'notes'            => 'nullable|string',
             'payment_method'   => 'required|in:transfer,e_wallet,cod',
             'store_account_id' => 'required_unless:payment_method,cod|nullable|exists:store_accounts,id',
+            'delivery_type'    => 'required|in:pickup,delivery',
+            'customer_lat'     => 'nullable|numeric|between:-90,90',
+            'customer_lng'     => 'nullable|numeric|between:-180,180',
         ], [
             'store_account_id.required_unless' => 'Pilih rekening tujuan pembayaran.',
+            'delivery_type.required'           => 'Pilih metode pengambilan.',
         ]);
+
+        // Hapus koordinat kalau bukan delivery
+        if ($validated['delivery_type'] !== 'delivery') {
+            $validated['customer_lat'] = null;
+            $validated['customer_lng'] = null;
+        }
 
         $order = $orderService->createOrder($validated);
 
