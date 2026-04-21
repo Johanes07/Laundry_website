@@ -30,18 +30,18 @@ class OrdersChartWidget extends ChartWidget
 
         return [
             'datasets' => [
-                [
-                    'label' => 'Pesanan masuk',
-                    'data' => $masuk->values()->toArray(),
-                    'backgroundColor' => '#378ADD',
-                    'borderRadius' => 4,
-                ],
-                [
-                    'label' => 'Selesai',
-                    'data' => $selesai->values()->toArray(),
-                    'backgroundColor' => '#639922',
-                    'borderRadius' => 4,
-                ],
+               [
+        'label' => 'Pesanan masuk',
+        'data' => $masuk->values()->toArray(),
+        'backgroundColor' => '#0D9488', // teal
+        'borderRadius' => 4,
+    ],
+    [
+        'label' => 'Selesai',
+        'data' => $selesai->values()->toArray(),
+        'backgroundColor' => '#22D3EE', // cyan
+        'borderRadius' => 4,
+    ],
             ],
             'labels' => $months->map(fn ($m) => $m->translatedFormat('M Y'))->toArray(),
         ];

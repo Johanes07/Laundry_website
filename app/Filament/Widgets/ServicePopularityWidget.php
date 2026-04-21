@@ -27,13 +27,13 @@ protected ?string $maxHeight = '280px';
                     'label' => 'Jumlah Pesanan',
                     'data' => $data->pluck('total')->toArray(),
                     'backgroundColor' => [
-                        '#185FA5',
-                        '#378ADD',
-                        '#85B7EB',
-                        '#639922',
-                        '#97C459',
-                        '#C0DD97',
-                    ],
+                    '#0D9488', // teal
+                    '#22D3EE', // cyan
+                    '#67E8F9', // light cyan
+                    '#0F766E', // teal dark
+                    '#06B6D4', // cyan mid
+                    '#A5F3FC', // cyan pale
+                ],
                     'borderRadius' => 4,
                 ],
             ],

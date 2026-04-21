@@ -32,12 +32,14 @@ class RevenueChartWidget extends ChartWidget
                 [
                     'label' => 'Pendapatan (Rp)',
                     'data' => $revenue->values()->toArray(),
-                    'borderColor' => '#378ADD',
-                    'backgroundColor' => 'rgba(55, 138, 221, 0.1)',
+                    'borderColor' => '#0D9488',           // teal
+                    'backgroundColor' => 'rgba(13, 148, 136, 0.15)', // teal transparan
                     'fill' => true,
                     'tension' => 0.4,
                     'pointRadius' => 3,
                     'pointHoverRadius' => 6,
+                    'pointBackgroundColor' => '#22D3EE',  // cyan untuk titik
+                    'pointBorderColor' => '#0D9488',
                 ],
             ],
             'labels' => $days->map(fn($d) => $d->format('d M'))->toArray(),
