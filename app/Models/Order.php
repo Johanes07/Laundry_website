@@ -72,11 +72,11 @@ class Order extends Model
     public function getStatusLabelAttribute(): string
     {
         return match ($this->status) {
-            'pending'    => '⏳ Menunggu',
-            'confirmed'  => '✅ Diterima',
-            'processing' => '🧺 Dicuci',
-            'ready'      => '📦 Siap Antar',
-            'completed'  => '🎉 Selesai',
+            'pending'    => 'Menunggu',
+            'confirmed'  => 'Diterima',
+            'processing' => 'Dicuci',
+            'ready'      => 'Siap Antar',
+            'completed'  => 'Selesai',
             default      => $this->status,
         };
     }

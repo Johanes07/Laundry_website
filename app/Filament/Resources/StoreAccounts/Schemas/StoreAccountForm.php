@@ -5,9 +5,7 @@ namespace App\Filament\Resources\StoreAccounts\Schemas;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Placeholder;
 use Filament\Schemas\Schema;
-use Illuminate\Support\HtmlString;
 
 class StoreAccountForm
 {
@@ -23,13 +21,6 @@ class StoreAccountForm
                     ->required(),
                 TextInput::make('type')
                     ->required(),
-                Placeholder::make('logo_preview')
-                    ->label('Logo saat ini')
-                    ->content(fn ($record) => $record?->logo
-                        ? new HtmlString('<img src="'.asset('storage/'.$record->logo).'" height="60">')
-                        : 'Belum ada logo'
-                    )
-                    ->visibleOn('edit'),
                 FileUpload::make('logo')
                     ->image()
                     ->acceptedFileTypes(['image/png', 'image/jpeg', 'image/webp'])
@@ -37,7 +28,7 @@ class StoreAccountForm
                     ->disk('public')
                     ->visibility('public')
                     ->fetchFileInformation(false)
-                    ->previewable(false)   // ← ini
+                    ->previewable(true)
                     ->imageEditor()
                     ->nullable(),
                 Toggle::make('is_active')

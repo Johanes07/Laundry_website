@@ -2,33 +2,34 @@
 
 namespace App\Filament\Resources\Orders\Tables;
 
+use App\Models\Order;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\SelectColumn;
-use Filament\Tables\Columns\BadgeColumn;
 use Filament\Tables\Table;
+use Filament\Support\Icons\Heroicon;
 
 class OrdersTable
 {
     public static function configure(Table $table): Table
     {
         return $table
-            ->poll('3s') // ← tambahkan baris ini
+            ->poll('3s')
             ->columns([
                 TextColumn::make('order_code')
                     ->label('Kode Order')
                     ->searchable()
-                    ->copyable()        // bisa klik untuk copy
+                    ->copyable()
                     ->weight('bold'),
 
                 TextColumn::make('customer_name')
                     ->label('Pelanggan')
                     ->searchable()
-                    ->description(fn ($record) => $record->customer_phone), // nomor HP di bawah nama
+                    ->description(fn ($record) => $record->customer_phone),
 
-                // customer_phone & customer_email disembunyikan karena sudah ada di description
                 TextColumn::make('customer_phone')
                     ->label('WhatsApp')
                     ->searchable()
@@ -39,7 +40,7 @@ class OrdersTable
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                TextColumn::make('service.name')  // relasi, bukan service_id
+                TextColumn::make('service.name')
                     ->label('Layanan')
                     ->sortable(),
 
@@ -88,11 +89,18 @@ class OrdersTable
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
-            ->defaultSort('created_at', 'desc') // order terbaru di atas
+            ->defaultSort('created_at', 'desc')
             ->filters([
                 //
             ])
             ->recordActions([
+                Action::make('print_receipt')
+                    ->label('Print Struk')
+                    ->icon(Heroicon::OutlinedPrinter)
+                    ->color('gray')
+                    ->url(fn (Order $record) => route('orders.receipt', $record))
+                    ->openUrlInNewTab(),
+
                 EditAction::make(),
             ])
             ->toolbarActions([

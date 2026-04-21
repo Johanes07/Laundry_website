@@ -123,4 +123,8 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'store_name'    => env('APP_STORE_NAME', 'Laundry Bersih'),
+    'store_address' => env('APP_STORE_ADDRESS', ''),
+    'store_phone'   => env('APP_STORE_PHONE', ''),
+
 ];
